@@ -3,8 +3,8 @@ const CONFIG = {
   APP_TAGLINE:     "Gerencie seus plantões com facilidade",
   APP_DESCRIPTION: "O aplicativo completo para profissionais de saúde controlarem plantões, finanças e agenda em um só lugar.",
 
-  PLAYSTORE_LINK: "#",   // Ex: "https://play.google.com/store/apps/details?id=..."
-  APPSTORE_LINK:  "#",   // Ex: "https://apps.apple.com/app/..."
+  APK_LINK:       "plantoes.apk",
+  APPSTORE_LINK:  "",    // iOS ainda indisponível. Preencha com o link da App Store para ativar o botão
   PREMIUM_LINK:   "#",   // Link para página de assinatura
 
   EMAIL_CONTATO: "bps.software1@gmail.com",
@@ -65,11 +65,19 @@ function populateConfig() {
   setText("footer-logo",         CONFIG.APP_NAME);
   setHTML("footer-copy",         `&copy; ${CONFIG.YEAR} ${CONFIG.APP_NAME}. Todos os direitos reservados.`);
 
-  // Links das lojas
-  setLink("hero-android",     CONFIG.PLAYSTORE_LINK);
-  setLink("download-android", CONFIG.PLAYSTORE_LINK);
-  setLink("hero-ios",         CONFIG.APPSTORE_LINK);
-  setLink("download-ios",     CONFIG.APPSTORE_LINK);
+  // Links de download
+  setLink("hero-android",     CONFIG.APK_LINK);
+  setLink("download-android", CONFIG.APK_LINK);
+  if (CONFIG.APPSTORE_LINK) {
+    ["hero-ios", "download-ios"].forEach(id => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      el.href = CONFIG.APPSTORE_LINK;
+      el.classList.remove("is-disabled");
+      el.removeAttribute("aria-disabled");
+      el.removeAttribute("tabindex");
+    });
+  }
   setLink("premium-btn",      CONFIG.PREMIUM_LINK);
 
   // E-mails
